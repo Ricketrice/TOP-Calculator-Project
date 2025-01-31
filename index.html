@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
   <html lang="en">
     <head>
       <meta charset="UTF-8">
@@ -6,51 +6,188 @@
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>HTML 5 Boilerplate</title>
       <link rel="stylesheet" href="style.css">
-      
     </head>
     <body>
       <div class="calculatorBody">
-        <div class = "display">
+        <div id = "display">
 
         </div>
 
         <div class = "calBody">
           <div class = "firstlayer">
-            <button id = "reset"><b>C</b></button>
-            <button id = "plusMinus"><b>+/-</b></button>
-            <button id = "delete"><b>DEL</b></button>
-            <button id = "plus"><b>+</b></button>
+            <button onclick = "clear1(this)" id = "reset" class = "clear"><b>C</b></button>
+            <button onclick = "changes(this)" id = "plusMinus" class = "plusAndminus" ><b>+/-</b></button>
+            <button onclick = "delete1()" id = "delete"  class = "delete"><b>DEL</b></button>
+            <button value = "+" class = "operator" onclick ="operator(this)"><b>+</b></button>
           </div>
 
           <div class = "secondLayer">
-            <button id = "1"><b>1</b></button>
-            <button id = "2"><b>2</b></button>
-            <button id = "3"><b>3</b></button>
-            <button id = "minus"><b>-</b></button>
+            <button onclick = "displayNumber(this)"   id = "1" class = "number"><b>1</b></button>
+            <button onclick = "displayNumber(this)"   id = "2" class = "number"><b>2</b></button>
+            <button onclick = "displayNumber(this)"   id = "3" class = "number"><b>3</b></button>
+            <button value = "-" class = "operator" onclick = "operator(this)"><b>-</b></button>
           </div>
           
           <div class = "thirdLayer">
-            <button id = "4"><b>4</b></button>
-            <button id = "5"><b>5</b></button>
-            <button id = "6"><b>6</b></button>
-            <button id = "multiply"><b>*</b></button>
+            <button onclick = "displayNumber(this)" id = "4" ><b>4</b></button>
+            <button onclick = "displayNumber(this)" id = "5" class = "number"><b>5</b></button>
+            <button onclick = "displayNumber(this)" id = "6" class = "number"><b>6</b></button>
+            <button value = "*"  class = "operator" onclick = "operator(this)"><b>*</b></button>
           </div>
           <div class = "fourtLayer">
-            <button id = "7"><b>7</b></button>
-            <button id = "8"><b>8</b></button>
-            <button id = "9"><b>9</b></button>
-            <button id = "division"><b>/</b></button>
+            <button onclick = "displayNumber(this)"  id = "7"  class = "number"><b>7</b></button>
+            <button onclick = "displayNumber(this)"  id = "8"  class = "number"><b>8</b></button>
+            <button onclick = "displayNumber(this)"  id = "9"  class = "number"><b>9</b></button>
+            <button class = "operator" onclick = "operator(this)"><b>/</b></button>
           </div>
           <div class = "fifthLayer">
-            <button id = "0"><b>0</b></button>
-            <button id = "dot"><b>.</b></button>
-            <button id = "equal"><b>=</b></button>
+            <button id = "0" onclick="displayNumber(this)" class = "number"><b>0</b></button>
+            <button  onclick = "float(this)"  class = "dot1"><b>.</b></button>
+            <button onclick = "equal(this)" class = "equal"><b>=</b></button>
           </div>
         </div>
           
       </div>
-      <script>
+      <script> 
+      let getNumber = "";
+      let getOperator1 =  "";
+      let firstNumber ="";
+      let secondNumber = "";
+      let result = "";
+  
+      function displayNumber(a) {
+        let display = document.getElementById("display");
+        display.innerHTML += a.textContent;
+        getNumber += a.textContent;
+        if (getNumber.length === 9){
+          alert("Character Limit is 8");
+        }
+      };
+
+      function operator(a) {
+        getCalOperator = a.textContent;
+        console.log(getCalOperator);
+        getOperator1 = getCalOperator;
+        firstNumber = getNumber;
+        getNumber = "";
+        document.getElementById("display").innerHTML = "";
         
+      };
+
+      function clear1(a) {
+        document.getElementById("display").innerHTML = "";
+        getNumber = "";
+        firstNumber = "";
+        secondNumber = ""
+        result = "";
+      };
+
+      function changes(a) {
+        if (getNumber === "") {
+          return;
+        } else {
+          getNumber = (document.getElementById("display").innerHTML = getNumber *=-1).toString();
+        }
+      }
+
+      function delete1() {
+        document.getElementById("display").textContent = document.getElementById("display").textContent.slice(0,-1);
+        getNumber = getNumber.slice(0,-1);
+      };
+
+      function float(a) {
+        if (!getNumber.includes(".")) {
+          getNumber +=".";
+          document.getElementById("display").innerHTML = getNumber;
+        };
+      };
+
+      function equal(a) {
+        function addition(a,b) {
+          return a +b;
+        };
+
+        function subtraction(a,b) {
+          return a-b;
+        };
+
+        function multiplication(a,b) {
+          return a*b;
+        };
+
+        function division(a,b) {
+          return a/b;
+        };
+
+        secondNumber = getNumber;
+        let intFirstNumber = parseFloat(firstNumber);
+        let intsecondNumber = parseFloat(secondNumber);
+        switch (getOperator1) {
+              case "+":
+                result = addition(intFirstNumber, intsecondNumber);
+                break
+              case "-":
+                result = subtraction(intFirstNumber, intsecondNumber);
+                break
+              case "*":
+                result = multiplication(intFirstNumber, intsecondNumber);
+                break
+              case "/":
+                result = division(intFirstNumber, intsecondNumber); 
+                break
+        };
+        document.getElementById("display").textContent = result;
+        getNumber = result.toString(); 
+        firstNumber = result.toString();
+      };
+
+      
+
+      /* 
+      function operation() {
+        function addition(a,b) {
+          return a +b;
+        };
+
+        function subtraction(a,b) {
+          a-b;
+        };
+
+        function multiplication(a,b) {
+          return a*b;
+        };
+
+        function division(a,b) {
+          return a/b;
+        }
+        if (typeof getOperator1 !== "string") {
+          return;
+        } else {
+          function equal(a) {
+            secondNumber += getNumber;
+            let intFirstNumber = parent(firstNumber);
+            let intsecondNumber = parseInt(secondNumber)
+            
+            switch (getOperator1) {
+              case "+":
+                return addition(intFirstNumber, intsecondNumber);
+                break
+              case "-":
+                return subtraction(intFirstNumber, intsecondNumber);
+                break
+              case "*":
+                return multiplication(intFirstNumber, intsecondNumber);
+                break
+              case "/":
+                return division(intFirstNumber, intsecondNumber); 
+                break
+            };
+          };
+        };
+      };
+
+    */
+
       </script>
     </body>
   </html>
